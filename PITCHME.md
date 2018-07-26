@@ -77,9 +77,10 @@ int main() {
 ```
 
 @[1-4]
-@[7-11]
-@[13-15]
-@[17-18]
+@[9-13]
+@[14-18]
+@[19-20]
+@[23-24]
 
 ```
 Results: 4 8 
@@ -88,7 +89,7 @@ Sum : 12
 
 ---
 
-## What are the @color[orange](problem@size[2em](s)) with this piece of code?
+## What are the @size[1.5em](@color[orange](problems)) with this piece of code?
 
 ---
 
