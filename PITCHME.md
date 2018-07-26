@@ -55,17 +55,22 @@ int main() {
  
    // Filter on even numbers
    std::vector<int> evenNumbers;
-   std::copy_if(numbers.cbegin(), numbers.cend(), std::back_inserter(evenNumbers), [](int n){ return n % 2 == 0; });
+   std::copy_if(numbers.cbegin(), numbers.cend(), 
+                std::back_inserter(evenNumbers), 
+                [](int n){ return n % 2 == 0; });
  
    // Multiply by 2 for each even number
    std::vector<int> results;
-   std::transform(evenNumbers.cbegin(), evenNumbers.cend(), std::back_inserter(results), [](int n){ return n * 2; });
+   std::transform(evenNumbers.cbegin(), evenNumbers.cend(), 
+                std::back_inserter(results), 
+                [](int n){ return n * 2; });
     
    // Get the sum 
    const auto sum = std::accumulate(results.cbegin(), results.cend(), 0); 
     
    std::cout << "Results: ";
-   std::copy(results.cbegin(), results.cend(), std::ostream_iterator<int>(std::cout, " "));    
+   std::copy(results.cbegin(), results.cend(), 
+             std::ostream_iterator<int>(std::cout, " "));    
    std::cout << '\n';
    std::cout << "Sum : " << sum << '\n';
 }
@@ -83,7 +88,7 @@ Sum : 12
 
 ---
 
-## What are the @color[orange](problem@size[2em](s) with this piece of code?
+## What are the @color[orange](problem@size[2em](s)) with this piece of code?
 
 ---
 
