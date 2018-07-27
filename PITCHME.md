@@ -213,6 +213,8 @@ int main() {
 ---
 
 ### boost/range/combine.hpp
++++ 
+
 ```cpp
 #include <iostream>
 #include <vector>
@@ -234,6 +236,7 @@ int main() {
     return 0;
 }
 ```
++++ 
 
 Output: 
 
@@ -277,6 +280,8 @@ abcdeABCDE
 
 ### boost::adaptors::index
 
++++ 
+
 Similar to python enumerate
 
 ```cpp
@@ -296,6 +301,8 @@ int main() {
     return 0;
 }
 ```
+
++++ 
 
 Output:
 ```
