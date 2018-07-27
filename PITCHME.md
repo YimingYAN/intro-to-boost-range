@@ -52,14 +52,12 @@ int main() {
  
    // Filter on even numbers
    std::vector<int> evenNumbers;
-   std::copy_if(numbers.cbegin(), numbers.cend(), 
-                std::back_inserter(evenNumbers), 
+   std::copy_if(numbers.cbegin(), numbers.cend(), std::back_inserter(evenNumbers), 
                 [](int n){ return n % 2 == 0; });
  
    // Multiply by 2 for each even number
    std::vector<int> results;
-   std::transform(evenNumbers.cbegin(), evenNumbers.cend(), 
-                  std::back_inserter(results), 
+   std::transform(evenNumbers.cbegin(), evenNumbers.cend(), std::back_inserter(results), 
                   [](int n){ return n * 2; });
     
    // Get the sum 
@@ -115,7 +113,7 @@ Results: 4 8 Sum : 12
 
 +++
 * Can be traversed: ```begin``` and  ```end``` methods
-* ```begin``` and  ```end``` both return something that behaves like an iterator
+* Two methods both return something that behaves like an iterator
 
 ```cpp
 Range {
