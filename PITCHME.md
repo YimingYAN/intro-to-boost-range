@@ -51,19 +51,16 @@ Results: 4 8 Sum : 12
 int main() {
    const auto numbers = std::vector<int>{ 1, 2, 3 ,4, 5 };
  
-   // Filter on even numbers
    std::vector<int> evenNumbers;
    const auto isEven = [](int n){return n % 2 == 0;};
    std::copy_if(numbers.cbegin(), numbers.cend(), std::back_inserter(evenNumbers), 
                 isEven);
  
-   // Multiply by 2 for each even number
    std::vector<int> results;
    const auto multiplyBy2 = [](int n){return n*2;};
    std::transform(evenNumbers.cbegin(), evenNumbers.cend(), std::back_inserter(results), 
                   multiplyBy2);
     
-   // Get the sum 
    const auto sum = std::accumulate(results.cbegin(), results.cend(), 0); 
     
    std::cout << "Results: ";
