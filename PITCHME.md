@@ -152,7 +152,7 @@ Normal iterator has two responsibilities:
 
 ### Adaptors
 
-@snap[north-east]
+@snap[south-east]
 Range ==> Adaptor ==> New range
 @snapend
 
@@ -282,7 +282,7 @@ abcdeABCDE
 ---
 
 ### boost::adaptors::index
-@snap[north-east]
+@snap[south-east]
 Similar to python enumerate
 @snapend
 
