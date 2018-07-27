@@ -44,6 +44,7 @@ Results: 4 8 Sum : 12
 ```cpp
 #include <algorithm>
 #include <iostream>
+#include <iterator>
 #include <numeric>
 #include <vector>
  
@@ -52,13 +53,15 @@ int main() {
  
    // Filter on even numbers
    std::vector<int> evenNumbers;
+   const auto isEven = [](int n){return n % 2 == 0;};
    std::copy_if(numbers.cbegin(), numbers.cend(), std::back_inserter(evenNumbers), 
-                [](int n){ return n % 2 == 0; });
+                isEven);
  
    // Multiply by 2 for each even number
    std::vector<int> results;
+   const auto multiplyBy2 = [](int n){return n*2;};
    std::transform(evenNumbers.cbegin(), evenNumbers.cend(), std::back_inserter(results), 
-                  [](int n){ return n * 2; });
+                  multiplyBy2);
     
    // Get the sum 
    const auto sum = std::accumulate(results.cbegin(), results.cend(), 0); 
@@ -70,9 +73,9 @@ int main() {
 }
 ```
 
-@[9-12]
-@[14-17]
-@[19-20]
+@[10-13]
+@[15-18]
+@[20]
 @[23-24]
 
 ```
@@ -82,6 +85,10 @@ Results: 4 8 Sum : 12
 ---
 
 ## What are the @size[1.5em](@color[orange](problems)) with this piece of code?
+
++++
+
+## What are the @size[1.5em](@color[orange](problems)) with STL algorithms?
 
 +++
 
@@ -96,7 +103,7 @@ Results: 4 8 Sum : 12
 * Violate the principle of respecting levels of abstraction
 * Algorithms do not compose well: no easy way to combine ```transform``` and ```copy_if```, and no such thing as “transform_if” 
 
-+++
+---
 
 ### The Range Libraries
 
@@ -127,7 +134,11 @@ Range {
 
 +++
 
-#### Most of the time, what we want is a range, which corresponds better to the level of abstraction
+@snap[south]
+Better level of abstraction
+@snapend
+
+#### Most of the time, what we want is a range
   ```cpp
       boost::range::transform(input, std::back_inserter(output), func);
 
@@ -140,14 +151,19 @@ Range {
 
 +++
 
-### Normal iterator
+### Normal iterators
 - Moving along the elements of the collection 
 - Accessing the elements of the collection (deference)
 
 
 +++
 
-### “Smart” iterators: customise one or both of these behaviours 
+### “Smart” iterators
+
+#### Customise one or both of these behaviours 
+
++++
+### Smart iterators
 * Iterator ```itr```  and a function (or function object) ```func```
 * For instance:
   - ```transform_iterator```
@@ -168,10 +184,10 @@ Range {
 
 ### Adaptors
 
-#### Combining Ranges and Smart iterators
+#### Combining ranges and Smart iterators
 
 +++ 
-@snap[south-east]
+@snap[north]
 Range ==> Adaptor ==> New range
 @snapend
 
@@ -207,6 +223,7 @@ auto sum = boost::accumulate(numbers, 0);
 
 #include <iostream>
 #include <vector>
+#include <iterator>
 
 using boost::adaptors::filtered;
 using boost::adaptors::transformed; 
@@ -215,7 +232,7 @@ int main() {
    const auto numbers = std::vector<int>{ 1, 2, 3 ,4, 5 };
  
    const auto isEven = [](int n){return n % 2 == 0;};
-   const auto multiplyBy2(int n){return n*2;};
+   const auto multiplyBy2 = [](int n){return n*2;};
    
    auto results = numbers | filtered(isEven) | transformed(multiplyBy2);
    const auto sum = boost::accumulate(results, 0); 
@@ -226,7 +243,7 @@ int main() {
 }
 ```
 
-@[18-19]
+@[19-20]
 
 ---
 
@@ -234,7 +251,10 @@ int main() {
 
 ---
 
-### boost/range/combine.hpp
+### boost::combine
+@snap[south-east]
+Similar to python zip, but not quite
+@snapend
 
 ```cpp
 #include <iostream>
@@ -256,9 +276,6 @@ int main() {
     return 0;
 }
 ```
-+++ 
-
-Output: 
 
 ```
 (a, 1)
@@ -269,7 +286,7 @@ Output:
 ```
 
 ---
-### boost/range/join.hpp
+### boost::join
 ```cpp
 #include <iostream>
 #include <vector>
@@ -290,7 +307,7 @@ int main() {
     return 0;
 }
 ```
-Output:
+
 ```
 abcdeABCDE
 ```
@@ -327,6 +344,41 @@ int main() {
 5 : S
 ```
 
+### boost::adaptors::map_keys and values
+```cpp
+#include <iostream>
+#include <map>
+#include <string>
+
+#include <boost/algorithm/string/join.hpp>
+#include <boost/range/adaptors.hpp>
+
+const std::map<int, std::string> numbermap = {
+    std::make_pair(1, "one"),
+    std::make_pair(2, "two")
+};
+
+int main() {
+    std::cout << "map keys: ";
+    for (const auto & key : numbermap | boost::adaptors::map_keys) {
+        std::cout << key << " ";
+    }
+    std::cout << '\n';
+
+    std::cout << "map values: "
+              << boost::algorithm::join(numbermap | boost::adaptors::map_values, " ")
+              << '\n';
+
+    return 0;
+}
+
+```
+
+```
+map keys: 1 2  
+map values: one two
+```
+
 ---
 
 ### Learn more and get help?
@@ -339,10 +391,12 @@ int main() {
 ---
 ### Credits
 
-#### Jonathan Boccara's blog 
+#### Jonathan Boccara's blogs 
 * [Introduction to the C++ Ranges Library](https://www.fluentcpp.com/2018/02/09/introduction-ranges-library/)
 * [Ranges: the STL to the Next Level](https://www.fluentcpp.com/2017/01/12/ranges-stl-to-the-next-level/)
-* [Boost Range For Humans from Christian Aichinger](https://greek0.net/boost-range/)  
+
+#### Christian Aichinger's blog
+* [Boost Range For Humans](https://greek0.net/boost-range/)  
 
 ---
 ### What else?
