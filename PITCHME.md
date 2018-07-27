@@ -1,6 +1,6 @@
 # An introduction to Range in C++ 
 
-### By Example
+@color[gray](By Example)
 
 ---
 
@@ -110,8 +110,8 @@ Results: 4 8 Sum : 12
 
 ### Range? 
 
-* Can be iterated over: ```begin``` and  ```end``` methods
-* ```begin``` and  ```end``` both return something that behaves essentially like an iterator
+* Can be traversed: ```begin``` and  ```end``` methods
+* ```begin``` and  ```end``` both return something that behaves like an iterator
 
 ```cpp
 Range {
@@ -123,13 +123,10 @@ Range {
 --- 
 
 ### Range
-* All STL containers are themselves ranges
-* Most of the time, what we want is a range, which corresponds better to the level of abstraction
+- All STL containers are themselves ranges
+- Most of the time, what we want is a range, which corresponds better to the level of abstraction
   ```cpp
       boost::range::transform(input, std::back_inserter(output), func);
-  ```
-  VS
-  ```cpp 
       std::transform(input.begin(), input.end(), std::back_inserter(output), f);
   ```
 
@@ -137,12 +134,17 @@ Range {
 
 ### Behind the scene: Smart iterators
 
-* Normal iterator has two responsibilities:
-    - Moving along the elements of the collection (++, –, etc.)
-    - Accessing the elements of the collection (*, ->)
-* “smart” iterators customise one or both of these behaviours. For instance:
-    - The ```transform_iterator``` is constructed with another iterator it and a function (or function object) f, and customises the way it accesses elements: when dereferenced, the transform_iterator applies f to *it and returns the result.
-    - The ```filter_iterator``` is constructed with another iterator it and a predicate p. It customises the way its moves: when advancing by one (++) a filter_iterator, it advances its underlying iterator it until it reaches an element that satisfies the predicate or the end of the collection.
++++
+#### Normal iterator has two responsibilities:
+- Moving along the elements of the collection (++, –, etc.)
+- Accessing the elements of the collection (*, ->)
+
+
++++
+
+#### “smart” iterators customise one or both of these behaviours. For instance:
+* The ```transform_iterator``` is constructed with another iterator it and a function (or function object) f, and customises the way it accesses elements: when dereferenced, the transform_iterator applies f to *it and returns the result.
+* The ```filter_iterator``` is constructed with another iterator it and a predicate p. It customises the way its moves: when advancing by one (++) a filter_iterator, it advances its underlying iterator it until it reaches an element that satisfies the predicate or the end of the collection.
 
 ---
 
@@ -188,9 +190,9 @@ int main() {
  
    const auto isEven = [](int n){return n % 2 == 0;};
    const auto multiplyBy2(int n){return n*2;};
+   
    // Filter on even numbers and multiply by 2
-   auto results = numbers | filtered(isEven) 
-                          | transformed(multiplyBy2);
+   auto results = numbers | filtered(isEven) | transformed(multiplyBy2);
     
    // Get the sum 
    const auto sum = boost::accumulate(results, 0); 
@@ -201,6 +203,8 @@ int main() {
    std::cout << "Sum : " << sum << '\n';
 }
 ```
+
+@[18-22]
 
 ---
 
