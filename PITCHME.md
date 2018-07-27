@@ -233,7 +233,7 @@ int main() {
         char c; int i;
         boost::tie(c, i) = zipped;
 
-        std::cout << "(" << c << ", " << i << ")" << std::endl;
+        std::cout << "(" << c << ", " << i << ")\n";
     }
 
     return 0;
@@ -269,7 +269,7 @@ int main() {
     for (const auto & c : boost::join(str, vec)) {
         std::cout << c;
     }
-    std::cout << std::endl;
+    std::cout << '\n';
 
     return 0;
 }
