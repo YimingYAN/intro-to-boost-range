@@ -135,25 +135,32 @@ Range {
 ### Behind the scene: Smart iterators
 
 +++
-#### Normal iterator has two responsibilities:
-- Moving along the elements of the collection (++, –, etc.)
-- Accessing the elements of the collection (*, ->)
+
+Normal iterator has two responsibilities:
+- Moving along the elements of the collection ```(++, –, etc.)```
+- Accessing the elements of the collection ```(*, ->)```
 
 
 +++
 
-#### “smart” iterators customise one or both of these behaviours. For instance:
-* The ```transform_iterator``` is constructed with another iterator it and a function (or function object) f, and customises the way it accesses elements: when dereferenced, the transform_iterator applies f to *it and returns the result.
-* The ```filter_iterator``` is constructed with another iterator it and a predicate p. It customises the way its moves: when advancing by one (++) a filter_iterator, it advances its underlying iterator it until it reaches an element that satisfies the predicate or the end of the collection.
+“Smart” iterators customise one or both of these behaviours. 
+* The ```transform_iterator``` is constructed with another iterator it and a function (or function object) f, and customises the way it accesses elements: when dereferenced, the ```transform_iterator``` applies f to *it and returns the result.
+* The ```filter_iterator``` is constructed with another iterator it and a predicate p. It customises the way its moves: when advancing by one (```++```) a ```filter_iterator``` advances its underlying iterator until it reaches an element that satisfies the predicate or the end of the collection.
+
 
 ---
 
 ### Adaptors
 
-#### Range ==> Adaptor ==> New range
+@snap[north-east]
+Range ==> Adaptor ==> New range
+@snapend
+
 * Initial adapted range remains unchanged
 * Produced range does not contain elements
 * No function evaluation involved yet
+
++++ 
 
 ```cpp
 std::vector numbers = { 1, 2, 3, 4, 5 };
@@ -191,10 +198,7 @@ int main() {
    const auto isEven = [](int n){return n % 2 == 0;};
    const auto multiplyBy2(int n){return n*2;};
    
-   // Filter on even numbers and multiply by 2
    auto results = numbers | filtered(isEven) | transformed(multiplyBy2);
-    
-   // Get the sum 
    const auto sum = boost::accumulate(results, 0); 
     
    std::cout << "Results: ";
@@ -204,7 +208,7 @@ int main() {
 }
 ```
 
-@[18-22]
+@[18-19]
 
 ---
 
@@ -213,7 +217,6 @@ int main() {
 ---
 
 ### boost/range/combine.hpp
-+++ 
 
 ```cpp
 #include <iostream>
@@ -279,10 +282,9 @@ abcdeABCDE
 ---
 
 ### boost::adaptors::index
-
-+++ 
-
+@snap[north-east]
 Similar to python enumerate
+@snapend
 
 ```cpp
 #include <iostream>
@@ -323,6 +325,7 @@ Output:
 * [Boost Range For Humans](https://greek0.net/boost-range/) : Full of examples 
 * Not sure about the performance? Bench it at [Quick Bench](http://quick-bench.com)
 
+---
 ### Credit 
 https://www.fluentcpp.com/2018/02/09/introduction-ranges-library/
 https://www.fluentcpp.com/2017/01/12/ranges-stl-to-the-next-level/
