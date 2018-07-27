@@ -137,15 +137,15 @@ Range {
 +++
 
 Normal iterator has two responsibilities:
-- Moving along the elements of the collection ```(++, –, etc.)```
-- Accessing the elements of the collection ```(*, ->)```
+- Moving along the elements of the collection 
+- Accessing the elements of the collection (deference)
 
 
 +++
 
-“Smart” iterators customise one or both of these behaviours. 
-* The ```transform_iterator``` is constructed with another iterator it and a function (or function object) f, and customises the way it accesses elements: when dereferenced, the ```transform_iterator``` applies f to *it and returns the result.
-* The ```filter_iterator``` is constructed with another iterator it and a predicate p. It customises the way its moves: when advancing by one (```++```) a ```filter_iterator``` advances its underlying iterator until it reaches an element that satisfies the predicate or the end of the collection.
+“Smart” iterators are constructed with another iterator ```it``` and a function (or function object) ```func``` to customise one or both of these behaviours. 
+* The ```transform_iterator``` customises the way it accesses elements: when dereferenced, the ```transform_iterator``` applies ```func``` to ```*it``` and returns the result.
+* The ```filter_iterator``` customises the way its moves: when advancing by one (```++```) a ```filter_iterator``` advances its underlying iterator until it reaches an element that satisfies the predicate or the end of the collection.
 
 
 ---
