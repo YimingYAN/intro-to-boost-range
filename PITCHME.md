@@ -96,15 +96,15 @@ Results: 4 8 Sum : 12
    std::copy(results.cbegin(), results.cend(), std::ostream_iterator<int>(std::cout, " "));    
 ```
 
-* Littered with iterators
+* Littered with iterators (```begin``` and ```end```)
 * Violate the principle of respecting levels of abstraction
 * Algorithms do not compose well: no easy way to combine ```transform``` and ```copy_if```, and no such thing as “transform_if” 
 ---
 
 ### The Range Library
 
-* Boost.Range
-* [range-v3](https://github.com/ericniebler/range-v3)
+* [Boost.Range](https://www.boost.org/doc/libs/1_67_0/libs/range/doc/html/index.html)
+* [range-v3 by Eric Niebler](https://github.com/ericniebler/range-v3)
 
 ---
 
@@ -123,29 +123,39 @@ Range {
 --- 
 
 ### Range
-- All STL containers are themselves ranges
-- Most of the time, what we want is a range, which corresponds better to the level of abstraction
+
+#### All STL containers are themselves ranges
+
++++
+
+#### Most of the time, what we want is a range, which corresponds better to the level of abstraction
   ```cpp
       boost::range::transform(input, std::back_inserter(output), func);
+
       std::transform(input.begin(), input.end(), std::back_inserter(output), f);
   ```
 
 ---
 
-### Behind the scene: Smart iterators
+### Behind the scenes: Smart iterators
 
 +++
 
-Normal iterator has two responsibilities:
+#### Normal iterator
 - Moving along the elements of the collection 
 - Accessing the elements of the collection (deference)
 
 
 +++
 
-“Smart” iterators are constructed with another iterator ```it``` and a function (or function object) ```func``` to customise one or both of these behaviours. 
-* The ```transform_iterator``` customises the way it accesses elements: when dereferenced, the ```transform_iterator``` applies ```func``` to ```*it``` and returns the result.
-* The ```filter_iterator``` customises the way its moves: when advancing by one (```++```) a ```filter_iterator``` advances its underlying iterator until it reaches an element that satisfies the predicate or the end of the collection.
+#### “Smart” iterators: customise one or both of these behaviours 
+* Iterator ```itr```  + a function (or function object) ```func```
+* ```transform_iterator``` 
+  - Customises the way it accesses elements
+  - When dereferenced, applies ```func``` to ```*itr``` and returns the result.
+* ```filter_iterator``` 
+  - Customises the way its moves
+  - When advancing by one, advances its underlying iterator until it reaches an element that satisfies the predicate or the end of the collection.
 
 
 ---
@@ -326,7 +336,10 @@ Output:
 * Not sure about the performance? Bench it at [Quick Bench](http://quick-bench.com)
 
 ---
-### Credit 
-https://www.fluentcpp.com/2018/02/09/introduction-ranges-library/
-https://www.fluentcpp.com/2017/01/12/ranges-stl-to-the-next-level/
+### Credits
+
+#### Jonathan Boccara's blog 
+* [Introduction to the C++ Ranges Library](https://www.fluentcpp.com/2018/02/09/introduction-ranges-library/)
+* [Ranges: the STL to the Next Level](https://www.fluentcpp.com/2017/01/12/ranges-stl-to-the-next-level/)
+* [Boost Range For Humans from Christian Aichinger](https://greek0.net/boost-range/)  
 
