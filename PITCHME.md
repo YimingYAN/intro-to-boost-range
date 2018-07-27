@@ -1,6 +1,6 @@
 # Ranges in C++ 
 
-@color[gray](By Example)
+@color[gray](By Examples)
 
 ---
 
