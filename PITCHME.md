@@ -347,11 +347,14 @@ int main() {
 * [Ranges: the STL to the Next Level](https://www.fluentcpp.com/2017/01/12/ranges-stl-to-the-next-level/)
 * [Boost Range For Humans from Christian Aichinger](https://greek0.net/boost-range/)  
 
-
+---
 ### What else?
 
 @snap[south-east]
 [gitpitch](https://gitpitch.com/) is great for code presentation 
 @snapend
 
+---
+
+##@color[gray](The End)
 
