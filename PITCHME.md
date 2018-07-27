@@ -1,6 +1,6 @@
-# Boost.Range
+# An introduction to Range in C++ 
 
-### An introduction to Boost.Range Library
+### By Example
 
 ---
 
@@ -31,14 +31,12 @@ int main() {
    for (int ii : results) {
        std::cout << ii << ' '; 
    } 
-   std::cout << '\n';
-   std::cout << "Sum : " << sum << '\n';
+   std::cout << " Sum : " << sum << '\n';
 }
 ```
 
 ```
-Results: 4 8 
-Sum : 12
+Results: 4 8 Sum : 12
 ```
 
 ---
@@ -71,7 +69,6 @@ int main() {
    std::cout << "Results: ";
    std::copy(results.cbegin(), results.cend(), 
              std::ostream_iterator<int>(std::cout, " "));    
-   std::cout << '\n';
    std::cout << "Sum : " << sum << '\n';
 }
 ```
@@ -83,8 +80,7 @@ int main() {
 @[25-26]
 
 ```
-Results: 4 8 
-Sum : 12
+Results: 4 8 Sum : 12
 ```
 
 ---
@@ -102,7 +98,7 @@ Sum : 12
 
 * Littered with iterators
 * Violate the principle of respecting levels of abstraction
-* Algorithms do not compose well: no easy way to combine ```transform``` and ```copy_if```, and there is no such thing as a “transform_if” 
+* Algorithms do not compose well: no easy way to combine ```transform``` and ```copy_if```, and no such thing as “transform_if” 
 ---
 
 ### The Range Library
@@ -114,7 +110,7 @@ Sum : 12
 
 ### Range? 
 
-* A range can be iterated over, which means that it has a ```begin``` and  ```end``` 
+* Can be iterated over: ```begin``` and  ```end``` methods
 * ```begin``` and  ```end``` both return something that behaves essentially like an iterator
 
 ```cpp
@@ -124,6 +120,9 @@ Range {
 }
 ```
 
+--- 
+
+### Range
 * All STL containers are themselves ranges
 * Most of the time, what we want is a range, which corresponds better to the level of abstraction
   ```cpp
@@ -136,54 +135,184 @@ Range {
 
 ---
 
-### Oh View!!
+### Behind the scene: Smart iterators
+
+* Normal iterator has two responsibilities:
+    - Moving along the elements of the collection (++, –, etc.)
+    - Accessing the elements of the collection (*, ->)
+* “smart” iterators customise one or both of these behaviours. For instance:
+    - The ```transform_iterator``` is constructed with another iterator it and a function (or function object) f, and customises the way it accesses elements: when dereferenced, the transform_iterator applies f to *it and returns the result.
+    - The ```filter_iterator``` is constructed with another iterator it and a predicate p. It customises the way its moves: when advancing by one (++) a filter_iterator, it advances its underlying iterator it until it reaches an element that satisfies the predicate or the end of the collection.
 
 ---
 
-### Adapter?
+### Adaptors
 
----
-
-### Algorithms !
-
----
-
-### Example with Range
+#### Range ==> Adaptor ==> New range
+* Initial adapted range remains unchanged
+* Produced range does not contain elements
+* No function evaluation involved yet
 
 ```cpp
-#include <boost/range/>
+std::vector numbers = { 1, 2, 3, 4, 5 };
+
+// function syntax
+auto range = boost::adaptors::transform(numbers, multiplyBy2);
+
+// pipe syntax
+auto range = numbers | boost::adaptors::transformed(multiplyBy2);
+
+// traverse the elements and applies the multiplyBy2
+auto sum = boost::accumulate(numbers, 0); 
+```
+
+---
+
+
+### Back to the Example with Range
+
+```cpp
+#include <boost/range/adaptor/filtered.hpp>
+#include <boost/range/adaptor/transformed.hpp>
+#include <boost/range/algorithm/copy.hpp>
+#include <boost/range/numeric.hpp>
 
 #include <iostream>
 #include <vector>
- 
-int main() {
-   using boost::range::filtered;
 
+using boost::adaptors::filtered;
+using boost::adaptors::transformed; 
+
+int main() {
    const auto numbers = std::vector<int>{ 1, 2, 3 ,4, 5 };
  
+   const auto isEven = [](int n){return n % 2 == 0;};
+   const auto multiplyBy2(int n){return n*2;};
    // Filter on even numbers and multiply by 2
-   auto results = numbers | filtered([](int n){ return n % 2 == 0; }) | transformed([](int n) { return n * 2; });
+   auto results = numbers | filtered(isEven) 
+                          | transformed(multiplyBy2);
     
    // Get the sum 
    const auto sum = boost::accumulate(results, 0); 
     
    std::cout << "Results: ";
-   boost::copy(results, std::ostream_iterator<int>(std::cout, " "));    
+   boost::range::copy(results, std::ostream_iterator<int>(std::cout, " "));
    std::cout << '\n';
    std::cout << "Sum : " << sum << '\n';
 }
 ```
 
+---
+
+### Interesting Usages
+
+---
+
+### boost/range/combine.hpp
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+#include <boost/range/combine.hpp>
+
+int main() {
+    const auto str = std::string("abcde");
+    const auto vec = std::vector<int>{1, 2, 3, 4, 5};
+
+    for (const auto & zipped : boost::combine(str, vec)) {
+        char c; int i;
+        boost::tie(c, i) = zipped;
+
+        std::cout << "(" << c << ", " << i << ")" << std::endl;
+    }
+
+    return 0;
+}
+```
+
+Output: 
+
+```
+(a, 1)
+(b, 2)
+(c, 3)
+(d, 4)
+(e, 5)
+```
+
+---
+### boost/range/join.hpp
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+#include <boost/range/join.hpp>
+
+
+int main() {
+    const auto str = std::string("abcde");
+    const auto vec = std::vector<char>{'A', 'B', 'C', 'D', 'E'};
+
+    // join() takes two ranges and concatenates them to a single range.
+    for (const auto & c : boost::join(str, vec)) {
+        std::cout << c;
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
+Output:
+```
+abcdeABCDE
+```
+
+---
+
+### boost::adaptors::index
+
+Similar to python enumerate
+
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+#include <boost/range/adaptor/indexed.hpp>
+
+const auto vec = std::vector<char>{'G', 'P', 'R', 'O', 'M', 'S'};
+
+int main() {
+    for (const auto & elem : boost::adaptors::index(vec, 0)) {
+        std::cout << elem.index() << " : " << elem.value()
+                  << '\n';
+    }
+    return 0;
+}
+```
+
+Output:
+```
+0 : G
+1 : P
+2 : R
+3 : O
+4 : M
+5 : S
+```
+
+---
 
 ### Learn more and get help?
 
-
-http://ericniebler.com/ The author of range-v3
-https://greek0.net/boost-range/ Boost Range For Humans , Full of examples
-
+* [Range 2.0](https://www.boost.org/doc/libs/1_67_0/libs/range/doc/html/index.html): The Boost official doc
+* [Blog from the author of range-v3](http://ericniebler.com/)  
+* [Boost Range For Humans](https://greek0.net/boost-range/) : Full of examples 
+* Not sure about the performance? Bench it at [Quick Bench](http://quick-bench.com)
 
 ### Credit 
 https://www.fluentcpp.com/2018/02/09/introduction-ranges-library/
 https://www.fluentcpp.com/2017/01/12/ranges-stl-to-the-next-level/
-https://www.fluentcpp.com/2017/04/14/understand-ranges-better-with-the-new-cartesian-product-adaptor/
 
