@@ -406,5 +406,5 @@ map values: one two
 
 ---
 
-@color[gray](##The End)
+## @size[1.5em](@color[grey](The End))
 
