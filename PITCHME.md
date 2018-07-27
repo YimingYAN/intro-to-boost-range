@@ -150,12 +150,16 @@ Range {
 
 #### “Smart” iterators: customise one or both of these behaviours 
 * Iterator ```itr```  + a function (or function object) ```func```
-* ```transform_iterator``` 
-  - Customises the way it accesses elements
-  - When dereferenced, applies ```func``` to ```*itr``` and returns the result.
-* ```filter_iterator``` 
-  - Customises the way its moves
-  - When advancing by one, advances its underlying iterator until it reaches an element that satisfies the predicate or the end of the collection.
+
++++
+#### ```transform_iterator``` 
+- Customises the way it accesses elements
+- When dereferenced, applies ```func``` to ```*itr``` and returns the result.
+
++++
+#### ```filter_iterator``` 
+- Customises the way its moves
+- When advancing by one, advances its underlying iterator until it reaches an element that satisfies the predicate or the end of the collection.
 
 
 ---
