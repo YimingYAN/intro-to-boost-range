@@ -26,7 +26,6 @@ int main() {
        }
    }
  
- 
    std::cout << "Results: ";
    for (int ii : results) {
        std::cout << ii << ' '; 
@@ -108,8 +107,12 @@ Results: 4 8 Sum : 12
 
 ---
 
-### Range? 
+### Range
 
++++
+#### Honestly, what is Range?
+
++++
 * Can be traversed: ```begin``` and  ```end``` methods
 * ```begin``` and  ```end``` both return something that behaves like an iterator
 
@@ -120,9 +123,7 @@ Range {
 }
 ```
 
---- 
-
-### Range
++++ 
 
 #### All STL containers are themselves ranges
 
@@ -349,4 +350,12 @@ Output:
 * [Introduction to the C++ Ranges Library](https://www.fluentcpp.com/2018/02/09/introduction-ranges-library/)
 * [Ranges: the STL to the Next Level](https://www.fluentcpp.com/2017/01/12/ranges-stl-to-the-next-level/)
 * [Boost Range For Humans from Christian Aichinger](https://greek0.net/boost-range/)  
+
+
+### What else?
+
+@snap[south-east]
+[gitpitch](https://gitpitch.com/) is great for code presentation 
+@snapend
+
 
