@@ -141,26 +141,26 @@ Range {
 
 +++
 
-#### Normal iterator
+### Normal iterator
 - Moving along the elements of the collection 
 - Accessing the elements of the collection (deference)
 
 
 +++
 
-#### “Smart” iterators: customise one or both of these behaviours 
+### “Smart” iterators: customise one or both of these behaviours 
 * Iterator ```itr```  and a function (or function object) ```func```
 * For instance:
   - ```transform_iterator```
   - ```filter_iterator```
 
 +++
-#### ```transform_iterator``` 
+### ```transform_iterator``` 
 - Customises the way it accesses elements
 - When dereferenced, applies ```func``` to ```*itr``` and returns the result.
 
 +++
-#### ```filter_iterator``` 
+### ```filter_iterator``` 
 - Customises the way its moves
 - When advancing by one, advances its underlying iterator until it reaches an element that satisfies the predicate or the end of the collection.
 
