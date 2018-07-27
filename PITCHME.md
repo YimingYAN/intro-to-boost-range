@@ -173,7 +173,7 @@ Better level of abstraction
 
 +++
 ### ```filter_iterator``` 
-- Customises the way its moves
+- Customises the way it moves
 - When advancing by one, advances its underlying iterator until it reaches an element that satisfies the predicate or the end of the collection.
 
 
@@ -181,13 +181,11 @@ Better level of abstraction
 
 ### Adaptors
 
-#### Combining ranges and Smart iterators
+#### Combining ranges and smart iterators
 
 +++ 
-@snap[north]
-Range ==> Adaptor ==> New range
-@snapend
 
+### Range ==> Adaptor ==> New range
 * Initial adapted range remains unchanged
 * Produced range does not contain elements
 * No function evaluation involved yet
@@ -341,6 +339,8 @@ int main() {
 5 : S
 ```
 
+---
+
 ### boost::adaptors::map_keys and values
 ```cpp
 #include <iostream>
@@ -398,11 +398,13 @@ map values: one two
 ---
 ### What else?
 
-@snap[south-east]
++++
+
+@snap[middle]
 [gitpitch](https://gitpitch.com/) is great for code presentation 
 @snapend
 
 ---
 
-##@color[gray](The End)
+@color[gray](##The End)
 
