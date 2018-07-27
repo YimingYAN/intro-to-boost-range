@@ -202,7 +202,7 @@ auto range = boost::adaptors::transform(numbers, multiplyBy2);
 auto range = numbers | boost::adaptors::transformed(multiplyBy2);
 
 // traverse the elements and applies the multiplyBy2
-auto sum = boost::accumulate(numbers, 0); 
+auto sum = boost::accumulate(range, 0); 
 ```
 
 ---
