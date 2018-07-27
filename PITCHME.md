@@ -30,7 +30,7 @@ int main() {
    for (int ii : results) {
        std::cout << ii << ' '; 
    } 
-   std::cout << " Sum : " << sum << '\n';
+   std::cout << "Sum : " << sum << '\n';
 }
 ```
 
@@ -59,8 +59,8 @@ int main() {
    // Multiply by 2 for each even number
    std::vector<int> results;
    std::transform(evenNumbers.cbegin(), evenNumbers.cend(), 
-                std::back_inserter(results), 
-                [](int n){ return n * 2; });
+                  std::back_inserter(results), 
+                  [](int n){ return n * 2; });
     
    // Get the sum 
    const auto sum = std::accumulate(results.cbegin(), results.cend(), 0); 
@@ -86,7 +86,7 @@ Results: 4 8 Sum : 12
 
 ## What are the @size[1.5em](@color[orange](problems)) with this piece of code?
 
----
++++
 
 ```cpp
    std::copy_if(numbers.cbegin(), numbers.cend(), std::back_inserter(evenNumbers), [](int n){ return n % 2 == 0; });
@@ -98,9 +98,10 @@ Results: 4 8 Sum : 12
 * Littered with iterators (```begin``` and ```end```)
 * Violate the principle of respecting levels of abstraction
 * Algorithms do not compose well: no easy way to combine ```transform``` and ```copy_if```, and no such thing as “transform_if” 
----
 
-### The Range Library
++++
+
+### The Range Libraries
 
 * [Boost.Range](https://www.boost.org/doc/libs/1_67_0/libs/range/doc/html/index.html)
 * [range-v3 by Eric Niebler](https://github.com/ericniebler/range-v3)
@@ -170,6 +171,9 @@ Range {
 
 ### Adaptors
 
+#### Combining Ranges and Smart iterators
+
++++ 
 @snap[south-east]
 Range ==> Adaptor ==> New range
 @snapend
@@ -183,10 +187,10 @@ Range ==> Adaptor ==> New range
 ```cpp
 std::vector numbers = { 1, 2, 3, 4, 5 };
 
-// function syntax
+// function
 auto range = boost::adaptors::transform(numbers, multiplyBy2);
 
-// pipe syntax
+// pipe
 auto range = numbers | boost::adaptors::transformed(multiplyBy2);
 
 // traverse the elements and applies the multiplyBy2
@@ -221,7 +225,6 @@ int main() {
     
    std::cout << "Results: ";
    boost::range::copy(results, std::ostream_iterator<int>(std::cout, " "));
-   std::cout << '\n';
    std::cout << "Sum : " << sum << '\n';
 }
 ```
@@ -240,7 +243,6 @@ int main() {
 #include <iostream>
 #include <vector>
 #include <string>
-
 #include <boost/range/combine.hpp>
 
 int main() {
@@ -278,7 +280,6 @@ Output:
 
 #include <boost/range/join.hpp>
 
-
 int main() {
     const auto str = std::string("abcde");
     const auto vec = std::vector<char>{'A', 'B', 'C', 'D', 'E'};
@@ -308,23 +309,18 @@ Similar to python enumerate
 #include <iostream>
 #include <string>
 #include <vector>
-
 #include <boost/range/adaptor/indexed.hpp>
 
-const auto vec = std::vector<char>{'G', 'P', 'R', 'O', 'M', 'S'};
-
 int main() {
+    const auto vec = std::vector<char>{'G', 'P', 'R', 'O', 'M', 'S'};
+
     for (const auto & elem : boost::adaptors::index(vec, 0)) {
-        std::cout << elem.index() << " : " << elem.value()
-                  << '\n';
+        std::cout << elem.index() << " : " << elem.value() << '\n';
     }
     return 0;
 }
 ```
 
-+++ 
-
-Output:
 ```
 0 : G
 1 : P
