@@ -1,4 +1,4 @@
-# An introduction to Range in C++ 
+# An introduction to Ranges in C++ 
 
 @color[gray](By Example)
 
