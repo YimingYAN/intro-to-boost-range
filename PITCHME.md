@@ -1,4 +1,4 @@
-# An introduction to Ranges in C++ 
+# Ranges in C++ 
 
 @color[gray](By Example)
 
@@ -149,7 +149,10 @@ Range {
 +++
 
 #### “Smart” iterators: customise one or both of these behaviours 
-* Iterator ```itr```  + a function (or function object) ```func```
+* Iterator ```itr```  and a function (or function object) ```func```
+* For instance:
+  - ```transform_iterator```
+  - ```filter_iterator```
 
 +++
 #### ```transform_iterator``` 
